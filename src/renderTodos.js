@@ -7,6 +7,7 @@ import {
   filterTodos,
   deleteMultitpleTodos,
   toggleMultipleTodosComplete,
+  addMultipleTodos,
 } from "./database.js";
 import { createNewTodo } from "./createTodos.js";
 import { setProgress } from "./progressRing.js";
@@ -223,4 +224,22 @@ export const toggleSelectedTodosCompleteInDom = (
       console.log(err);
       return false;
     });
+};
+
+export const addBulkTodosInDom = async (
+  newTodoList,
+  addInUndoHistory = true
+) => {
+  try {
+    const prevTodoList = await readAllTodos();
+    const updatedList = await addMultipleTodos(newTodoList);
+    renderAllTodosInDom(updatedList);
+    addEventToHistory(
+      "multiple-addition",
+      [prevTodoList, updatedList],
+      !addInUndoHistory
+    );
+  } catch (err) {
+    console.log(err);
+  }
 };

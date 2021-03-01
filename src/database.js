@@ -191,12 +191,12 @@ export const toggleMultipleTodosComplete = (todoIds) =>
     }
   });
 
-export const addMultipleTodos = (prevTodoList) =>
+export const addMultipleTodos = (newTodoList) =>
   new Promise((resolve, reject) => {
     if (faliureProbability() < 0.1) {
       reject("[ERROR] Unable to add the selected todos");
     } else {
-      todoList = copyArrayOfObjects(prevTodoList);
-      resolve(copyArrayOfObjects(todoList));
+      todoList = copyArrayOfObjects(newTodoList);
+      resolve(todoList);
     }
   });
