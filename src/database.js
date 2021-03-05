@@ -1,9 +1,11 @@
 export const resolveDatabaseCall = () => {
   const faliureProbability = Math.random() * 10;
-  return (new Promise() = (resolve, reject) => {
-    faliureProbability < 0.1
-      ? reject("[ERROR] Unable to resolve database call")
-      : resolve("The call was sucessfully resolved");
+  return new Promise((resolve, reject) => {
+    if (faliureProbability() < 0.1) {
+      resolve();
+    } else {
+      reject();
+    }
   });
 };
 

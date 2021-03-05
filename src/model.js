@@ -2,7 +2,7 @@ import { resolveDatabaseCall } from "./database.js";
 
 export default class Model {
   constructor(Todos) {
-    this.TodoStore() = Todos ? [...Todos] : [];
+    this.TodoStore = Todos ? [...Todos] : [];
     this.currId = Todos ? Todos.length + 1 : 0;
   }
 

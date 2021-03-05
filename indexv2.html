@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>Todo List</title>
+  <meta charset="UTF-8" />
+  <link rel="stylesheet" href="./src/styles.css">
+  <link rel="preconnect" href="https://fonts.gstatic.com">
+  <link href="https://fonts.googleapis.com/css2?family=Indie+Flower&family=Lemonada:wght@700&display=swap"
+    rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Overpass&family=Roboto:wght@100;300&display=swap"
+    rel="stylesheet">
+
+</head>
+
+<body>
+  <div style="height: 100vh">
+    <div style="height:10%" id="navbar">
+      <span id="title">Todo-List App</span>
+      <span id="date"></span>
+    </div>
+    <div style="height: 90%;" id="content">
+      <div class="container">
+        <div class="sidebar">
+          <h3>Add a new Todo</h3>
+          <form id="addTodoForm">
+            <input type="text" class="inputField" id="todoTitleInput" required name="todoText"
+              placeholder="Enter new todo name">
+            <label for="todoImpSelect">Select Todo Importance</label>
+            <select name="todoImp" class="inputField" id="todoImpInput">
+              <option value="high">Do now!!!</option>
+              <option value="medium">Do tomorrow!!</option>
+              <option value="low">Do soon!</option>
+              <option value="none">Do when you have extra time.</option>
+            </select>
+            <button id="addTodoButton">Add Todo</button>
+          </form>
+
+          <h3>Filter Todos</h3>
+
+          <form id="filterTodoForm">
+            <label for="todoImpFilter">Filter by priority</label>
+            <select name="todoImp" class="inputField" id="todoImpFilter">
+              <option value="all">All</option>
+              <option value="high">Do now!!!</option>
+              <option value="medium">Do tomorrow!!</option>
+              <option value="low">Do soon!</option>
+              <option value="none">Do when you have extra time.</option>
+            </select>
+            <label for="todoDateFilter">Filter by date</label>
+            <input type="date" name="date" class="inputField" id="todoDateFilter">
+            <button name="filerButton" type="submit" class="filterTodoButton">Filter</button>
+            <button name="resetButton" id="filterResetButton" type="reset" class="filterTodoButton">Reset</button>
+          </form>
+
+          <h3>Completed Todos</h3>
+            <svg class="sidebar-progress-ring" height="220" width="220">
+              <circle class="sidebar-progress-ring__circle" stroke-width="4" fill="#00adb5" r="98" cx="110" cy="110" stroke="white"></circle>
+              <text class="sidebar-progress-ring__text" x="50%" y="52%" fill="black" font-size="x-large" text-anchor="middle">3 out of 3</text>
+            </svg>
+
+        </div>
+
+        <div class="container-todolist"></div>
+
+        <div class="bulk">
+          <button class="bulk-delete fas fa-trash"></button>
+          <button class="bulk-complete fas fa-clipboard-check"></button>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <div class="modal-bg">
+    <div class="modal">
+      <form id="editTodoForm">
+        <label for="editFormTitle">Edit todo title</label>
+        <input type="text" name="title" class="inputField" id="editFormTitle">
+        <label for="editFormImp">Edit todo priority</label>
+        <select name="imp" class="inputField" id="editFormImp">
+          <option value="all">All</option>
+          <option value="high">Do now!!!</option>
+          <option value="medium">Do tomorrow!!</option>
+          <option value="low">Do soon!</option>
+          <option value="none">Do when you have extra time.</option>
+        </select>
+        <button name="submitEditButton" type="submit" class="filterTodoButton">Submit</button>
+        <button name="cancelEditButton" id = "cancelTodoEdit" type="reset" class="filterTodoButton">Cancel</button>
+      </form>
+    </div>
+  </div>
+
+  <script type="module" src="./src/index.js"></script>
+  <script src="https://kit.fontawesome.com/881afd50b3.js" crossorigin="anonymous"></script>
+</body>
+
+</html>

@@ -11,19 +11,19 @@ body {
   background: #222831;
 }
 
-#navbar {
+.App-navbar {
   background: #00adb5;
   font-family: "Lemonada", cursive;
   font-size: xx-large;
 }
 
-#navbar #title {
+.navbar-title {
   float: left;
   margin-top: 20px;
   margin-left: 20px;
 }
 
-#navbar #date {
+.navbar-date {
   float: right;
   margin-top: 20px;
   margin-right: 20px;
@@ -35,7 +35,7 @@ body {
   height: 100%;
 }
 
-.list {
+.container-todolist {
   display: flex;
   flex-direction: column;
   flex-wrap: wrap;
@@ -162,7 +162,7 @@ button {
   font-size: large;
 }
 
-#addTodoForm {
+.sidebar-addform {
   text-align: center;
   margin: auto;
   position: relative;
@@ -177,7 +177,8 @@ button {
   border-bottom: 3px solid black;
 }
 
-.inputField {
+.sidebar-addform input,
+.sidebar-addform select {
   margin: auto;
   margin-bottom: 10px;
   display: block;
@@ -190,7 +191,7 @@ button {
   outline: none;
 }
 
-#todoImpInput {
+.sidebar-addform select {
   margin-top: 10px;
 }
 
@@ -257,7 +258,8 @@ input {
   border: 2px solid black;
 }
 
-.inputField {
+.modal-editform input,
+.modal-editform select {
   margin: auto;
   margin-bottom: 10px;
   display: block;
@@ -270,7 +272,7 @@ input {
   outline: none;
 }
 
-.modal form {
+.modal-editform {
   text-align: center;
 }
 
