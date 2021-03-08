@@ -6,6 +6,7 @@ import filterForm from "./views/filterForm.js";
 import todoDomHandler from "./views/todo.js";
 import navbarDate from "./views/navbarDate.js";
 import progressRing from "./views/progressRing.js";
+import snackbar from "./views/snackBar.js";
 
 export default class View {
   constructor(
@@ -175,5 +176,9 @@ export default class View {
 
   setProgressRing = (completedTodos, totalTodos) => {
     progressRing.setProgressRing(completedTodos, totalTodos);
+  };
+
+  showSnackbar = () => {
+    snackbar.showSnackbar();
   };
 }

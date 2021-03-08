@@ -96,7 +96,7 @@ export default class Controller {
         });
       },
       () => {
-        console.log("Database Error");
+        this.view.showSnackbar();
       }
     );
   };
@@ -122,7 +122,7 @@ export default class Controller {
         });
       },
       () => {
-        console.log("Database Error");
+        this.view.showSnackbar();
       }
     );
   };
@@ -141,7 +141,7 @@ export default class Controller {
         historyObject.push({ action: USERACTION.toggle, todoId });
       },
       () => {
-        console.log("Database Error");
+        this.view.showSnackbar();
       }
     );
   };
@@ -163,7 +163,7 @@ export default class Controller {
         historyObject.push({ action: USERACTION.bulktoggle, todoIds });
       },
       () => {
-        console.log("Database Error");
+        this.view.showSnackbar();
       }
     );
   };
@@ -186,7 +186,7 @@ export default class Controller {
         });
       },
       () => {
-        console.log("Database Error");
+        this.view.showSnackbar();
       }
     );
   };
@@ -208,7 +208,7 @@ export default class Controller {
         this.selectedTodos.clear();
       },
       () => {
-        console.log("Database Error");
+        this.view.showSnackbar();
       }
     );
   };
@@ -235,7 +235,7 @@ export default class Controller {
         });
       },
       () => {
-        console.log("Database Error");
+        this.view.showSnackbar();
       }
     );
   };
