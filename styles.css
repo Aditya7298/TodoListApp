@@ -78,17 +78,19 @@ body {
   margin-bottom: 5%;
 }
 
-.dateSpan {
+.todo-date {
   display: block;
 }
 
-.todo-complete {
+.todo-completed {
   text-decoration: line-through;
   color: dimgray;
   display: block;
 }
 
-.todo-imp {
+/* todo-importance todo-importance-${todo.importance} */
+
+.todo-importance {
   position: absolute;
   top: 0px;
   left: 0px;
@@ -96,6 +98,7 @@ body {
   height: 0;
   /* border-top-left-radius: 2%; */
   border-top: 20px solid yellow;
+  border-top-color: #ed2805cf;
   opacity: 1;
   border-right: 20px solid transparent;
 }
@@ -116,19 +119,19 @@ body {
   background: #00adb5;
 }
 
-.high {
+.todo-importance-high {
   border-top-color: #ed2805cf;
 }
 
-.medium {
+.todo-importance-medium {
   border-top-color: rgb(109, 205, 109);
 }
 
-.low {
+.todo-importance-low {
   border-top-color: #ffdf00;
 }
 
-.none {
+.todo-importance-none {
   border-top-color: rgb(235, 204, 166);
 }
 
@@ -162,7 +165,8 @@ button {
   font-size: large;
 }
 
-.sidebar-addform {
+.sidebar-addform,
+.sidebar-filterform {
   text-align: center;
   margin: auto;
   position: relative;
@@ -171,14 +175,14 @@ button {
   border-bottom: 3px solid black;
 }
 
-#filterTodoForm {
+.sidebar-filterform {
   margin-bottom: 20px;
   padding-bottom: 50px;
   border-bottom: 3px solid black;
 }
 
-.sidebar-addform input,
-.sidebar-addform select {
+.sidebar input,
+.sidebar select {
   margin: auto;
   margin-bottom: 10px;
   display: block;
@@ -191,12 +195,16 @@ button {
   outline: none;
 }
 
-.sidebar-addform select {
+.sidebar select {
   margin-top: 10px;
 }
 
-#addTodoButton,
-.filterTodoButton {
+.filterform-submitbutton,
+.filterform-resetbutton,
+.addform-submitbutton,
+.addform-submitbutton,
+.editform-submitbutton,
+.editform-cancelbutton {
   margin-top: 10px;
   font-family: "Overpass", sans-serif;
   font-size: large;
@@ -206,8 +214,14 @@ button {
     0.3em 0.3em 1em rgba(0, 0, 0, 0.3);
 }
 
-.filterTodoButton {
-  margin-right: 10px;
+.editform-submitbutton,
+.editform-cancelbutton {
+  margin-right: 20px;
+  display: inline;
+}
+
+.filterform-submitbutton {
+  margin-right: 15px;
 }
 
 .sidebar h3 {

@@ -3,6 +3,8 @@ import { IMPORTANCE } from "../constants.js";
 
 const Init = (todoInDom) => {
   const modal = document.querySelector(".modal");
+  modal.innerHTML = "";
+
   const modalBackground = document.querySelector(".modal-bg");
   modalBackground.style.visibility = "visible";
 
@@ -16,7 +18,7 @@ const Init = (todoInDom) => {
   //Creating the todo title input
   const todoTitleInputLabel = document.createElement("label");
   const todoTitleInput = document.createElement("input");
-  todoTitleInput.dataset.editForm = "title";
+  todoTitleInput.dataset.editform = "title";
   todoTitleInput.value = todoTitle;
   todoTitleInput.type = "text";
   todoTitleInput.classList.add("modal-editform__title");
@@ -29,19 +31,25 @@ const Init = (todoInDom) => {
   const todoImportanceInput = createDropDownList(Object.values(IMPORTANCE));
   todoImportanceInput.name = "todo-importance";
   todoImportanceInput.value = todoImportance;
-  todoImportanceInput.dataset.editForm = "importance";
+  todoImportanceInput.dataset.editform = "importance";
   todoImportanceInput.classList.add("model-editform__importance");
   todoImportanceInputLabel.append(
     "Change Todo Importance",
     todoImportanceInput
   );
 
-  const submitButton = document.createElement("input");
-  submitButton.type = "submit";
+  const submitButton = document.createElement("button");
+  submitButton.classList = "editform-submitbutton";
   submitButton.innerHTML = "Submit";
 
   const cancelButton = document.createElement("button");
+  cancelButton.classList = "editform-cancelbutton";
   cancelButton.innerHTML = "Cancel";
+
+  cancelButton.addEventListener("click", (evt) => {
+    evt.preventDefault();
+    modalBackground.style.visibility = "hidden";
+  });
 
   editForm.append(
     todoTitleInputLabel,
@@ -54,12 +62,12 @@ const Init = (todoInDom) => {
 
 const handleSubmit = (evt) => {
   evt.preventDefault();
-  const title = document.querySelector("[data-editForm=title]").value;
-  const importance = document.querySelectorAll("[data-editForm=importance]")
+  const title = document.querySelector('[data-editform="title"]').value;
+  const importance = document.querySelector('[data-editform="importance"]')
     .value;
 
   const modalBackground = document.querySelector(".modal-bg");
-  modalBackground.style.visibility = "visible";
+  modalBackground.style.visibility = "hidden";
 
   return { title, importance };
 };

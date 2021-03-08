@@ -1,13 +1,21 @@
 export { USERACTION } from "./constants.js";
 
-class History {
+export default class UndoRedoHistory {
   constructor() {
-    this.historyArray = [];
+    this.historyStack = [];
   }
 
-  addEventToHistory = (eventInfo) => {
-    this.historyArray.push({ ...eventInfo });
+  push = (eventInfo) => {
+    this.historyStack.push({ ...eventInfo });
   };
 
-  handleUndoRedo = () => {};
+  pop = () => {
+    this.historyStack.pop();
+  };
+
+  top = () => {
+    if (this.historyStack.length) {
+      return this.historyStack[this.historyStack.length - 1];
+    }
+  };
 }

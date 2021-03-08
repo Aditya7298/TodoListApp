@@ -1,4 +1,8 @@
-import { USERACTION, BUTTONICONCLASSES } from "../constants.js";
+import {
+  USERACTION,
+  BUTTONICONCLASSES,
+  IMPORTANCEICONCLASSES,
+} from "../constants.js";
 
 export const createDropDownList = (options, inputName) => {
   const newSelectInput = document.createElement("select");
@@ -36,7 +40,9 @@ export const createTodoInDom = (todo) => {
 
   const todoImpIcon = document.createElement("i");
   todoImpIcon.dataset.todo = `${todo.id}_importance`;
-  todoImpIcon.classList = `todo-importance todo-importance-${todo.importance}`;
+  todoImpIcon.classList = `todo-importance ${
+    IMPORTANCEICONCLASSES[todo.importance]
+  }`;
 
   const todoDateSpan = document.createElement("span");
   todoDateSpan.textContent = todo.date;
@@ -45,7 +51,7 @@ export const createTodoInDom = (todo) => {
 
   const todoSelectButton = document.createElement("span");
   todoSelectButton.dataset.todo = `${todo.id}_${USERACTION.select}`;
-  todoSelectButton.classList = `todo-${USERACTION.select}`;
+  todoSelectButton.classList = `todo-${USERACTION.select}button`;
 
   const todoToggleButton = createButton(USERACTION.toggle);
   todoToggleButton.dataset.todo = `${todo.id}_${USERACTION.toggle}`;
@@ -58,6 +64,7 @@ export const createTodoInDom = (todo) => {
 
   newTodo.append(
     todoImpIcon,
+    todoSelectButton,
     todoTitle,
     todoDateSpan,
     todoToggleButton,

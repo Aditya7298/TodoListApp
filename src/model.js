@@ -15,7 +15,7 @@ export default class Model {
   };
 
   readSingleTodo = (todoId) => {
-    const selectedTodo = this.TodoStore.filter((todo) => todo.id === todoId);
+    const selectedTodo = this.TodoStore.filter((todo) => todo.id === todoId)[0];
     return { ...selectedTodo };
   };
 
@@ -28,7 +28,7 @@ export default class Model {
       }
 
       if (
-        filteredImportance !== "all" &&
+        filteredImportance !== "All" &&
         todo.importance !== filteredImportance
       ) {
         return false;
@@ -42,117 +42,94 @@ export default class Model {
     return filteredTodosCopy;
   };
 
-  createTodo = (title, importance) => {
-    const newTodo = {
-      id: this.currId + 1,
-      title,
-      importance,
-      completed: false,
-      date: new Date().toDateString(),
-    };
-
-    resolveDatabaseCall()
-      .then(() => {
-        this.TodoStore = [...this.TodoStore, newTodo];
-        return { ...newTodo };
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+  changeTodoStoreState = async (
+    prevTodoStore,
+    successCallback,
+    faliureCallback
+  ) => {
+    try {
+      const databaseResponse = await resolveDatabaseCall();
+      this.TodoStore = this.makeCopyOfAListOfObjects(prevTodoStore);
+      successCallback();
+    } catch (err) {
+      faliureCallback();
+    }
   };
 
-  //Function to add previously deleted todo back in the list
+  createTodo = async (title, importance, successCallback, faliureCallback) => {
+    try {
+      const newTodo = {
+        id: `${this.currId++}`,
+        title,
+        importance,
+        completed: false,
+        date: new Date().toDateString(),
+      };
 
-  insertTodo = (prevTodo, todoIndex) => {
-    resolveDatabaseCall()
-      .then(() => {
-        this.TodoStore = this.TodoStore.slice(0, todoIndex).concat(
-          { ...prevTodo },
-          this.TodoStore.slice(todoIndex)
-        );
-
-        return prevTodo;
-      })
-      .catch((err) => {
-        throw err;
-      });
+      const databaseResponse = await resolveDatabaseCall();
+      this.TodoStore = [...this.TodoStore, newTodo];
+      successCallback();
+    } catch (err) {
+      faliureCallback();
+    }
   };
 
-  updateTodo = (todoId, updatedTodo) => {
-    resolveDatabaseCall()
-      .then(() => {
-        this.TodoStore = this.TodoStore.map((todo) => {
-          todo.id === todoId ? { ...updatedTodo } : todo;
-        });
-
-        return updatedTodo;
-      })
-      .catch((err) => {
-        throw err;
-      });
+  editTodo = async (todoId, updatedTodo, successCallback, faliureCallback) => {
+    try {
+      const databaseResponse = await resolveDatabaseCall();
+      this.TodoStore = this.TodoStore.map((todo) =>
+        todo.id === todoId ? { ...updatedTodo } : todo
+      );
+      successCallback();
+    } catch (err) {
+      faliureCallback();
+    }
   };
 
-  toggleTodoComplete = (todoId) => {
-    resolveDatabaseCall()
-      .then(() => {
-        this.TodoStore = this.TodoStore.map((todo) =>
-          todo.id === todoId ? { ...todo, completed: !todo.completed } : todo
-        );
-
-        return todoId;
-      })
-      .catch((err) => {
-        throw err;
-      });
+  toggleTodo = async (todoId, successCallback, faliureCallback) => {
+    try {
+      const databaseResponse = await resolveDatabaseCall();
+      this.TodoStore = this.TodoStore.map((todo) =>
+        todo.id === todoId ? { ...todo, completed: !todo.completed } : todo
+      );
+      successCallback();
+    } catch (err) {
+      faliureCallback();
+    }
   };
 
-  toggleMultipleTodosComplete = (todoIds) => {
-    resolveDatabaseCall()
-      .then(() => {
-        this.TodoStore = this.TodoStore.map((todo) =>
-          todoIds.includes(todo.id)
-            ? { ...todo, completed: !todo.completed }
-            : todo
-        );
-
-        return todoIds;
-      })
-      .catch((err) => {
-        throw err;
+  toggleBulkTodos = async (todoIds, successCallback, faliureCallback) => {
+    try {
+      this.TodoStore.forEach((todo) => {
+        if (todoIds.includes(todo.id)) {
+          todo.completed = !todo.completed;
+        }
       });
+      successCallback();
+    } catch (err) {
+      faliureCallback();
+    }
   };
 
-  deleteTodo = (todoId) => {
-    resolveDatabaseCall()
-      .then(() => {
-        this.TodoStore = this.TodoStore.filter((todo, index) => {
-          if (todo.id === todoId) {
-            const deletedTodo = todo, //should I send a copy ?
-              deletedTodoIndex = index;
-            return false;
-          }
-
-          return true;
-        });
-
-        return { deletedTodo, deletedTodoIndex };
-      })
-      .catch((err) => {
-        throw err;
-      });
+  deleteTodo = async (todoId, successCallback, faliureCallback) => {
+    try {
+      const databaseResponse = await resolveDatabaseCall();
+      this.TodoStore = this.TodoStore.filter((todo) => todo.id !== todoId);
+      successCallback();
+    } catch (err) {
+      faliureCallback();
+    }
   };
 
-  deleteMultipleTodos = (todoIds) => {
-    resolveDatabaseCall()
-      .then(() => {
-        const prevTodoStore = this.makeCopyOfAListOfObjects(this.TodoStore);
-        this.TodoStore = this.TodoStore.filter((todo) =>
-          todoIds.includes(todo)
-        );
-        return prevTodoStore;
-      })
-      .catch((err) => {
-        throw err;
-      });
+  deleteBulkTodos = async (todoIds, successCallback, faliureCallback) => {
+    try {
+      const databaseResponse = resolveDatabaseCall();
+      this.TodoStore = this.TodoStore.filter(
+        (todo) => !todoIds.includes(todo.id)
+      );
+      successCallback();
+    } catch (err) {
+      faliureCallback();
+    }
   };
 }

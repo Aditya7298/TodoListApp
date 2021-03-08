@@ -7,6 +7,9 @@ export const USERACTION = {
   bulkdelete: "bulk-delete",
   bulktoggle: "bulk-toggle",
   bulkadd: "bulk-add",
+  changestate: "change-state",
+  undo: "undo",
+  redo: "redo",
 };
 
 export const BUTTONICONCLASSES = {
@@ -20,4 +23,11 @@ export const IMPORTANCE = {
   medium: "Do tomorrow!!",
   low: "Do soon!",
   none: "Do when you have extra time",
+};
+
+export const IMPORTANCEICONCLASSES = {
+  "Do now!!!": "todo-importance-high",
+  "Do tomorrow!!": "todo-importance-medium",
+  "Do soon!": "todo-importance-low",
+  "Do when you have extra time": "todo-importance-none",
 };

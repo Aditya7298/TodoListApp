@@ -1,21 +1,5 @@
-import { IMPORTANCE } from "../constants.js";
+import { IMPORTANCE, IMPORTANCEICONCLASSES } from "../constants.js";
 import { createDropDownList } from "./DOMutils.js";
-
-{
-  /* <h3>Add a new Todo</h3>
-<form id="addTodoForm">
-  <input type="text" class="inputField" id="todoTitleInput" required name="todoText"
-    placeholder="Enter new todo name">
-  <label for="todoImpSelect">Select Todo Importance</label>
-  <select name="todoImp" class="inputField" id="todoImpInput">
-    <option value="high">Do now!!!</option>
-    <option value="medium">Do tomorrow!!</option>
-    <option value="low">Do soon!</option>
-    <option value="none">Do when you have extra time.</option>
-  </select>
-  <button id="addTodoButton">Add Todo</button>
-</form> */
-}
 
 const Init = () => {
   const sidebar = document.querySelector(".sidebar");
@@ -43,20 +27,25 @@ const Init = () => {
     "todo-importance"
   );
   todoImportanceInput.dataset.addform = "importance";
+  todoImportanceInput.value = IMPORTANCE.high;
   todoImportanceInput.classList.add("sidebar-addform__importance");
   todoImportanceInputLabel.append(
     "Select Todo Importance",
     todoImportanceInput
   );
 
-  addForm.append(todoTitleInput, todoImportanceInputLabel);
+  const submitButton = document.createElement("button");
+  submitButton.classList = "addform-submitbutton";
+  submitButton.innerHTML = "Add Todo";
+
+  addForm.append(todoTitleInput, todoImportanceInputLabel, submitButton);
   sidebar.append(heading, addForm);
 };
 
 const handleSubmit = (evt) => {
   evt.preventDefault();
-  const title = document.querySelector("[data-addform=title]").value;
-  const importance = document.querySelectorAll("[data-addform=importance]")
+  const title = document.querySelector('[data-addform="title"]').value;
+  const importance = document.querySelector('[data-addform="importance"]')
     .value;
   return { title, importance };
 };
