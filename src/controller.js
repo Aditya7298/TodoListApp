@@ -1,5 +1,5 @@
-import Model from "./Model.js";
-import View from "./View.js";
+import Model from "./model.js";
+import View from "./view.js";
 import UndoRedoHistory from "./history.js";
 import { USERACTION } from "./constants.js";
 
