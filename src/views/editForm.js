@@ -1,54 +1,78 @@
-import {} from "./utils.js";
+import { createDropDownList } from "./DOMutils.js";
+import { IMPORTANCE } from "../constants.js";
 
-{
-  /* <form id="editTodoForm">
-        <label for="editFormTitle">Edit todo title</label>
-        <input type="text" name="title" class="inputField" id="editFormTitle">
-        <label for="editFormImp">Edit todo priority</label>
-        <select name="imp" class="inputField" id="editFormImp">
-          <option value="all">All</option>
-          <option value="high">Do now!!!</option>
-          <option value="medium">Do tomorrow!!</option>
-          <option value="low">Do soon!</option>
-          <option value="none">Do when you have extra time.</option>
-        </select>
-        <button name="submitEditButton" type="submit" class="filterTodoButton">Submit</button>
-        <button name="cancelEditButton" id = "cancelTodoEdit" type="reset" class="filterTodoButton">Cancel</button>
-      </form> 
-*/
-}
-
-const Init = () => {
+const Init = (todoInDom) => {
   const modal = document.querySelector(".modal");
+  modal.innerHTML = "";
+
+  const modalBackground = document.querySelector(".modal-bg");
+  modalBackground.style.visibility = "visible";
+
+  const todoTitle = todoInDom.dataset.title;
+  const todoImportance = todoInDom.dataset.importance;
+
   //Creating the form element
   const editForm = document.createElement("form");
-  addForm.classList.add("sidebar-addtodoform");
+  editForm.classList.add("modal-editform");
 
   //Creating the todo title input
-  const todoNameInput = document.createElement("input");
-  todoNameInput.dataset.addForm = "title";
-  todoNameInput.type = text;
-  todoNameInput.classList.add("sidebar-addtodoform__title");
-  todoNameInput.required = true;
-  todoNameInput.name = "todotext";
-  todoNameInput.placeholder = "Enter new todo name";
+  const todoTitleInputLabel = document.createElement("label");
+  const todoTitleInput = document.createElement("input");
+  todoTitleInput.dataset.editform = "title";
+  todoTitleInput.value = todoTitle;
+  todoTitleInput.type = "text";
+  todoTitleInput.classList.add("modal-editform__title");
+  todoTitleInput.required = true;
+  todoTitleInput.name = "todo-title";
+  todoTitleInputLabel.append("Change todo title", todoTitleInput);
 
   //Creating the dropdown menu for todo importance selection
   const todoImportanceInputLabel = document.createElement("label");
-  const todoImportanceInput = document.createElement("select");
-  todoImportanceInput.dataset.addForm = "importance";
-  todoImportanceInput.classList.add("sidebar-addtodoform__importance");
-  Object.keys(IMPORTANCE).forEach((importanceValue) => {
-    const optionInput = document.createElement("option");
-    optionInput.value = IMPORTANCE[importanceValue];
-    optionInput.innerHTML = IMPORTANCE[importanceValue];
-    todoImportanceInput.appendChild(optionInput);
-  });
+  const todoImportanceInput = createDropDownList(Object.values(IMPORTANCE));
+  todoImportanceInput.name = "todo-importance";
+  todoImportanceInput.value = todoImportance;
+  todoImportanceInput.dataset.editform = "importance";
+  todoImportanceInput.classList.add("model-editform__importance");
   todoImportanceInputLabel.append(
-    "Select Todo Importance",
+    "Change Todo Importance",
     todoImportanceInput
   );
 
-  addForm.append(todoNameInput, todoImportanceInputLabel);
-  sidebar.append(heading, addForm);
+  const submitButton = document.createElement("button");
+  submitButton.classList = "editform-submitbutton";
+  submitButton.innerHTML = "Submit";
+
+  const cancelButton = document.createElement("button");
+  cancelButton.classList = "editform-cancelbutton";
+  cancelButton.innerHTML = "Cancel";
+
+  cancelButton.addEventListener("click", (evt) => {
+    evt.preventDefault();
+    modalBackground.style.visibility = "hidden";
+  });
+
+  editForm.append(
+    todoTitleInputLabel,
+    todoImportanceInputLabel,
+    submitButton,
+    cancelButton
+  );
+  modal.append(editForm);
+};
+
+const handleSubmit = (evt) => {
+  evt.preventDefault();
+  const title = document.querySelector('[data-editform="title"]').value;
+  const importance = document.querySelector('[data-editform="importance"]')
+    .value;
+
+  const modalBackground = document.querySelector(".modal-bg");
+  modalBackground.style.visibility = "hidden";
+
+  return { title, importance };
+};
+
+export default {
+  Init,
+  handleSubmit,
 };
