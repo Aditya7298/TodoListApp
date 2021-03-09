@@ -2,7 +2,7 @@ import { resolveDatabaseCall } from "./database.js";
 
 export default class Model {
   constructor(Todos) {
-    this.TodoStore = Todos ? [...Todos] : [];
+    this.TodoStore = Todos ? Todos : [];
     this.currId = Todos ? Todos.length + 1 : 0;
   }
 
@@ -91,11 +91,11 @@ export default class Model {
   toggleBulkTodos = async (todoIds) => {
     try {
       const databaseResponse = await resolveDatabaseCall();
-      this.TodoStore.forEach((todo) => {
-        if (todoIds.includes(todo.id)) {
-          todo.completed = !todo.completed;
-        }
-      });
+      this.TodoStore = this.TodoStore.map((todo) =>
+        todoIds.includes(todo.id)
+          ? { ...todo, completed: !todo.completed }
+          : todo
+      );
       return true;
     } catch (err) {
       return false;
