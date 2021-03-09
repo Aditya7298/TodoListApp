@@ -11,10 +11,19 @@ body {
   background: #222831;
 }
 
+.App {
+  height: 100vh;
+}
+
 .App-navbar {
+  height: 10%;
   background: #00adb5;
   font-family: "Lemonada", cursive;
   font-size: xx-large;
+}
+
+.App-content {
+  height: 90%;
 }
 
 .navbar-title {
