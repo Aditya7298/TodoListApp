@@ -50,17 +50,17 @@ export const createTodoInDom = (todo) => {
   todoDateSpan.classList = "todo-date";
 
   const todoSelectButton = document.createElement("span");
-  todoSelectButton.dataset.todo = `${todo.id}_${USERACTION.select}`;
-  todoSelectButton.classList = `todo-${USERACTION.select}button`;
+  todoSelectButton.dataset.todo = `${todo.id}_${USERACTION.SELECT}`;
+  todoSelectButton.classList = `todo-selectbutton`;
 
-  const todoToggleButton = createButton(USERACTION.toggle);
-  todoToggleButton.dataset.todo = `${todo.id}_${USERACTION.toggle}`;
+  const todoToggleButton = createButton(USERACTION.TOGGLE);
+  todoToggleButton.dataset.todo = `${todo.id}_${USERACTION.TOGGLE}`;
 
-  const todoEditButton = createButton(USERACTION.edit);
-  todoEditButton.dataset.todo = `${todo.id}_${USERACTION.edit}`;
+  const todoEditButton = createButton(USERACTION.EDIT);
+  todoEditButton.dataset.todo = `${todo.id}_${USERACTION.EDIT}`;
 
-  const todoDeleteButton = createButton(USERACTION.delete);
-  todoDeleteButton.dataset.todo = `${todo.id}_${USERACTION.delete}`;
+  const todoDeleteButton = createButton(USERACTION.DELETE);
+  todoDeleteButton.dataset.todo = `${todo.id}_${USERACTION.DELETE}`;
 
   newTodo.append(
     todoImpIcon,

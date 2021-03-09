@@ -16,7 +16,6 @@ const Init = () => {
   todoTitleInput.dataset.addform = "title";
   todoTitleInput.type = "text";
   todoTitleInput.classList.add("sidebar-addform__title");
-  todoTitleInput.required = true;
   todoTitleInput.name = "todo-title";
   todoTitleInput.placeholder = "Enter new todo title";
 
@@ -27,7 +26,7 @@ const Init = () => {
     "todo-importance"
   );
   todoImportanceInput.dataset.addform = "importance";
-  todoImportanceInput.value = IMPORTANCE.high;
+  todoImportanceInput.value = IMPORTANCE.HIGH;
   todoImportanceInput.classList.add("sidebar-addform__importance");
   todoImportanceInputLabel.append(
     "Select Todo Importance",
@@ -47,6 +46,7 @@ const handleSubmit = (evt) => {
   const title = document.querySelector('[data-addform="title"]').value;
   const importance = document.querySelector('[data-addform="importance"]')
     .value;
+  document.querySelector('[data-addform="title"]').value = "";
   return { title, importance };
 };
 

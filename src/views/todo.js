@@ -21,7 +21,7 @@ const editTodoInDom = (todoId, todoTitle, todoImportance) => {
 
 const selectTodoInDom = (todoId) => {
   const todoSelectButton = document.querySelector(
-    `[data-todo="${todoId}_${USERACTION.select}"]`
+    `[data-todo="${todoId}_${USERACTION.SELECT}"]`
   );
 
   todoSelectButton.classList.toggle("todo-selectbutton-selected");

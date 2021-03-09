@@ -1,28 +1,28 @@
 export const USERACTION = {
-  edit: "edit",
-  toggle: "toggle",
-  create: "create",
-  delete: "delete",
-  select: "select",
-  bulkdelete: "bulk-delete",
-  bulktoggle: "bulk-toggle",
-  bulkadd: "bulk-add",
-  changestate: "change-state",
-  undo: "undo",
-  redo: "redo",
+  EDIT: "EDIT",
+  TOGGLE: "TOGGLE",
+  CREATE: "CREATE",
+  DELETE: "DELETE",
+  SELECT: "SELECT",
+  BULKDELETE: "BULK-DELETE",
+  BULKTOGGLE: "BULK-TOGGLE",
+  BULKADD: "BULK-ADD",
+  CHANGESTATE: "CHANGE-STATE",
+  UNDO: "UNDO",
+  REDO: "REDO",
 };
 
 export const BUTTONICONCLASSES = {
-  delete: ["fas", "fa-trash"],
-  toggle: ["fas", "fa-check-square"],
-  edit: ["fas", "fa-edit"],
+  DELETE: ["fas", "fa-trash"],
+  TOGGLE: ["fas", "fa-check-square"],
+  EDIT: ["fas", "fa-edit"],
 };
 
 export const IMPORTANCE = {
-  high: "Do now!!!",
-  medium: "Do tomorrow!!",
-  low: "Do soon!",
-  none: "Do when you have extra time",
+  HIGH: "Do now!!!",
+  MEDIUM: "Do tomorrow!!",
+  LOW: "Do soon!",
+  NONE: "Do when you have extra time",
 };
 
 export const IMPORTANCEICONCLASSES = {

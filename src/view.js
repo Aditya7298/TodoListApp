@@ -66,13 +66,13 @@ export default class View {
 
     document.addEventListener("keydown", (evt) => {
       if (evt.metaKey && evt.key === "z") {
-        this.undoRedoCallback(USERACTION.undo);
+        this.undoRedoCallback(USERACTION.UNDO);
       }
     });
 
     document.addEventListener("keydown", (evt) => {
       if (evt.metaKey && evt.key === "x") {
-        this.undoRedoCallback(USERACTION.redo);
+        this.undoRedoCallback(USERACTION.REDO);
       }
     });
 
@@ -88,19 +88,19 @@ export default class View {
       todoListContainer.append(newTodoInDom);
 
       const toggleButton = document.querySelector(
-        `[data-todo="${todo.id}_${USERACTION.toggle}"]`
+        `[data-todo="${todo.id}_${USERACTION.TOGGLE}"]`
       );
 
       const editButton = document.querySelector(
-        `[data-todo="${todo.id}_${USERACTION.edit}"]`
+        `[data-todo="${todo.id}_${USERACTION.EDIT}"]`
       );
 
       const deleteButton = document.querySelector(
-        `[data-todo="${todo.id}_${USERACTION.delete}"]`
+        `[data-todo="${todo.id}_${USERACTION.DELETE}"]`
       );
 
       const selectButton = document.querySelector(
-        `[data-todo="${todo.id}_${USERACTION.select}"]`
+        `[data-todo="${todo.id}_${USERACTION.SELECT}"]`
       );
 
       toggleButton.addEventListener("click", (evt) => {
@@ -135,9 +135,7 @@ export default class View {
     const editFormInDom = document.querySelector(".modal-editform");
     editFormInDom.addEventListener("submit", (evt) => {
       const { title, importance } = { ...editForm.handleSubmit(evt) };
-      if (this.editCallback(todoId, title, importance)) {
-        todoDomHandler.editTodoInDom(todoId, title, importance);
-      }
+      this.editCallback(todoId, title, importance);
     });
   };
 
@@ -155,6 +153,7 @@ export default class View {
   };
 
   editTodo = (todoObject) => {
+    debugger;
     todoDomHandler.editTodoInDom(
       todoObject.id,
       todoObject.title,

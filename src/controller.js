@@ -72,36 +72,32 @@ export default class Controller {
     this.view.selectTodo(todoId);
   };
 
-  handleCreate = (
+  handleCreate = async (
     title,
     importance,
     historyObject = this.undoHistory,
     usingHistory = false
   ) => {
     const currTodoList = this.model.readAllTodos();
-    this.model.createTodo(
-      title,
-      importance,
-      () => {
-        const updatedTodoList = this.model.readFilteredTodos(
-          this.filter.date,
-          this.filter.importance
-        );
-        this.handleProgressRing();
-        this.view.renderTodosInDom(updatedTodoList);
-        this.popFromHistory(historyObject, usingHistory);
-        historyObject.push({
-          action: USERACTION.create,
-          todoList: currTodoList,
-        });
-      },
-      () => {
-        this.view.showSnackbar();
-      }
-    );
+    const modelResponse = await this.model.createTodo(title, importance);
+    if (modelResponse) {
+      const updatedTodoList = this.model.readFilteredTodos(
+        this.filter.date,
+        this.filter.importance
+      );
+      this.handleProgressRing();
+      this.view.renderTodosInDom(updatedTodoList);
+      this.popFromHistory(historyObject, usingHistory);
+      historyObject.push({
+        action: USERACTION.CREATE,
+        todoList: currTodoList,
+      });
+    } else {
+      this.view.showSnackbar();
+    }
   };
 
-  handleEdit = (
+  handleEdit = async (
     todoId,
     title,
     importance,
@@ -109,141 +105,122 @@ export default class Controller {
     usingHistory = false
   ) => {
     const currTodo = this.model.readSingleTodo(todoId);
-    const updatedtodo = { ...currTodo, title, importance };
-    this.model.editTodo(
-      todoId,
-      updatedtodo,
-      () => {
-        this.view.editTodo(updatedtodo);
-        this.popFromHistory(historyObject, usingHistory);
-        historyObject.push({
-          action: USERACTION.edit,
-          todo: currTodo,
-        });
-      },
-      () => {
-        this.view.showSnackbar();
-      }
-    );
+    const updatedtodo = { title, importance };
+    const modelResponse = await this.model.editTodo(todoId, updatedtodo);
+    if (modelResponse) {
+      this.view.editTodo({ ...currTodo, ...updatedtodo });
+      this.popFromHistory(historyObject, usingHistory);
+      historyObject.push({
+        action: USERACTION.EDIT,
+        todo: currTodo,
+      });
+    } else {
+      this.view.showSnackbar();
+    }
   };
 
-  handleToggle = (
+  handleToggle = async (
     todoId,
     historyObject = this.undoHistory,
     usingHistory = false
   ) => {
-    this.model.toggleTodo(
-      todoId,
-      () => {
-        this.view.toggleTodo(todoId);
-        this.handleProgressRing();
-        this.popFromHistory(historyObject, usingHistory);
-        historyObject.push({ action: USERACTION.toggle, todoId });
-      },
-      () => {
-        this.view.showSnackbar();
-      }
-    );
+    const modelResponse = await this.model.toggleTodo(todoId);
+    if (modelResponse) {
+      this.view.toggleTodo(todoId);
+      this.handleProgressRing();
+      this.popFromHistory(historyObject, usingHistory);
+      historyObject.push({ action: USERACTION.TOGGLE, todoId });
+    } else {
+      this.view.showSnackbar();
+    }
   };
 
-  handleBulkToggle = (
+  handleBulkToggle = async (
     historyObject = this.undoHistory,
     usingHistory = false,
     todoIds = Array.from(this.selectedTodos)
   ) => {
-    this.model.toggleBulkTodos(
-      todoIds,
-      () => {
-        this.view.toggleBulkTodos(todoIds);
-        this.handleProgressRing();
-        this.popFromHistory(historyObject, usingHistory);
-        todoIds.forEach((todoId) => {
-          this.handleSelect(todoId);
-        });
-        historyObject.push({ action: USERACTION.bulktoggle, todoIds });
-      },
-      () => {
-        this.view.showSnackbar();
-      }
-    );
+    const modelResponse = await this.model.toggleBulkTodos(todoIds);
+    if (modelResponse) {
+      this.view.toggleBulkTodos(todoIds);
+      this.handleProgressRing();
+      this.popFromHistory(historyObject, usingHistory);
+      todoIds.forEach((todoId) => {
+        this.handleSelect(todoId);
+      });
+      historyObject.push({ action: USERACTION.BULKTOGGLE, todoIds });
+    } else {
+      this.view.showSnackbar();
+    }
   };
 
-  handleDelete = (
+  handleDelete = async (
     todoId,
     historyObject = this.undoHistory,
     usingHistory = false
   ) => {
     const currTodoList = this.model.readAllTodos();
-    this.model.deleteTodo(
-      todoId,
-      () => {
-        this.view.deleteTodo(todoId);
-        this.handleProgressRing();
-        this.popFromHistory(historyObject, usingHistory);
-        historyObject.push({
-          action: USERACTION.delete,
-          todoList: currTodoList,
-        });
-      },
-      () => {
-        this.view.showSnackbar();
-      }
-    );
+    const modelResponse = await this.model.deleteTodo(todoId);
+    if (modelResponse) {
+      this.view.deleteTodo(todoId);
+      this.handleProgressRing();
+      this.popFromHistory(historyObject, usingHistory);
+      historyObject.push({
+        action: USERACTION.DELETE,
+        todoList: currTodoList,
+      });
+    } else {
+      this.view.showSnackbar();
+    }
   };
 
-  handleBulkDelete = (historyObject = this.undoHistory, usingHistory) => {
+  handleBulkDelete = async (historyObject = this.undoHistory, usingHistory) => {
     const todoIds = Array.from(this.selectedTodos);
     const currTodoList = this.model.readAllTodos();
-    this.model.deleteBulkTodos(
-      todoIds,
-      () => {
-        const updatedTodoList = this.model.readAllTodos();
-        this.view.renderTodosInDom(updatedTodoList);
-        this.handleProgressRing();
-        this.popFromHistory(historyObject, usingHistory);
-        historyObject.push({
-          action: USERACTION.bulkdelete,
-          todoList: currTodoList,
-        });
-        this.selectedTodos.clear();
-      },
-      () => {
-        this.view.showSnackbar();
-      }
-    );
+    const modelResponse = await this.model.deleteBulkTodos(todoIds);
+    if (modelResponse) {
+      const updatedTodoList = this.model.readAllTodos();
+      this.view.renderTodosInDom(updatedTodoList);
+      this.handleProgressRing();
+      this.popFromHistory(historyObject, usingHistory);
+      historyObject.push({
+        action: USERACTION.BULKDELETE,
+        todoList: currTodoList,
+      });
+      this.selectedTodos.clear();
+    } else {
+      this.view.showSnackbar();
+    }
   };
 
-  changleTodoListState = (
+  changleTodoListState = async (
     prevTodoList,
     historyObject = this.undoHistory,
     usingHistory
   ) => {
     const currTodoList = this.model.readAllTodos();
-    this.model.changeTodoStoreState(
-      prevTodoList,
-      () => {
-        const filteredTodos = this.model.readFilteredTodos(
-          this.filter.date,
-          this.filter.importance
-        );
-        this.view.renderTodosInDom(filteredTodos);
-        this.handleProgressRing();
-        this.popFromHistory(historyObject, usingHistory);
-        historyObject.push({
-          action: USERACTION.changestate,
-          todoList: currTodoList,
-        });
-      },
-      () => {
-        this.view.showSnackbar();
-      }
-    );
+    const modelResponse = await this.model.changeTodoStoreState(prevTodoList);
+    if (modelResponse) {
+      const filteredTodos = this.model.readFilteredTodos(
+        this.filter.date,
+        this.filter.importance
+      );
+      this.view.renderTodosInDom(filteredTodos);
+      this.handleProgressRing();
+      this.popFromHistory(historyObject, usingHistory);
+      historyObject.push({
+        action: USERACTION.CHANGESTATE,
+        todoList: currTodoList,
+      });
+    } else {
+      this.view.showSnackbar();
+    }
   };
 
   handleUndoRedo = (Event) => {
     let readHistoryObject, passHistoryObject;
 
-    if (Event === USERACTION.undo) {
+    if (Event === USERACTION.UNDO) {
       readHistoryObject = this.undoHistory;
       passHistoryObject = this.redoHistory;
     } else {
@@ -258,7 +235,7 @@ export default class Controller {
     }
 
     switch (lastEventInHistory.action) {
-      case USERACTION.edit:
+      case USERACTION.EDIT:
         const prevTodo = lastEventInHistory.todo;
         this.handleEdit(
           prevTodo.id,
@@ -269,12 +246,12 @@ export default class Controller {
         );
         break;
 
-      case USERACTION.toggle:
+      case USERACTION.TOGGLE:
         const todoId = lastEventInHistory.todoId;
         this.handleToggle(todoId, passHistoryObject, true);
         break;
 
-      case USERACTION.bulktoggle:
+      case USERACTION.BULKTOGGLE:
         const todoIds = lastEventInHistory.todoIds;
         this.handleBulkToggle(passHistoryObject, true, todoIds);
         break;
