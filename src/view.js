@@ -134,7 +134,7 @@ export default class View {
     editForm.Init(todoInDom);
     const editFormInDom = document.querySelector(".modal-editform");
     editFormInDom.addEventListener("submit", (evt) => {
-      const { title, importance } = { ...editForm.handleSubmit(evt) };
+      const { title, importance } = editForm.handleSubmit(evt);
       this.editCallback(todoId, title, importance);
     });
   };
@@ -144,7 +144,7 @@ export default class View {
   };
 
   handleCreateTodo = (evt) => {
-    const { title, importance } = { ...addForm.handleSubmit(evt) };
+    const { title, importance } = addForm.handleSubmit(evt);
     this.createCallback(title, importance);
   };
 
@@ -153,7 +153,6 @@ export default class View {
   };
 
   editTodo = (todoObject) => {
-    debugger;
     todoDomHandler.editTodoInDom(
       todoObject.id,
       todoObject.title,

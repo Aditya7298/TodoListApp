@@ -4,7 +4,6 @@ const editText = (text) => {
 };
 
 const setProgressRing = (completedCount, totalCount) => {
-  //   debugger;
   const circle = document.querySelector(".sidebar-progress-ring__circle");
   const radius = circle.r.baseVal.value;
   const circumference = radius * 2 * Math.PI;
